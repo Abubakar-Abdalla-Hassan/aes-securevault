@@ -1,0 +1,388 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="AES SecureVault - educational AES-256-GCM encryption and decryption demo built with the Web Crypto API"
+    />
+    <title>AES SecureVault</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <script type="module" src="/src/main.js"></script>
+    <link rel="stylesheet" href="/src/styles.css" />
+  </head>
+  <body>
+    <div class="page-shell">
+      <aside class="sidebar">
+        <div class="brand" aria-label="AES SecureVault logo area">
+          <div class="brand-icon">A</div>
+          <div>
+            <span class="brand-label">AES</span>
+            <strong>SecureVault</strong>
+          </div>
+        </div>
+
+        <nav class="nav" aria-label="Main navigation">
+          <a href="#home" class="nav-link active">Home</a>
+          <a href="#text-encryption" class="nav-link">Text Encryption</a>
+          <a href="#text-decryption" class="nav-link">Text Decryption</a>
+          <a href="#file-encryption" class="nav-link">File Encryption</a>
+          <a href="#file-decryption" class="nav-link">File Decryption</a>
+          <a href="#education" class="nav-link">AES Education</a>
+          <a href="#about" class="nav-link">About Project</a>
+        </nav>
+
+        <div class="sidebar-footer">
+          <div class="status-pill">
+            <span class="status-dot"></span>
+            Local browser processing
+          </div>
+          <button id="themeToggle" class="theme-toggle" type="button" aria-label="Toggle color theme">
+            <span class="toggle-icon">🌙</span>
+          </button>
+        </div>
+      </aside>
+
+      <main class="main-panel">
+        <header class="topbar">
+          <button class="mobile-menu" type="button" aria-label="Toggle menu">
+            ☰
+          </button>
+          <div class="topbar-title">
+            <span>Cryptography and Network Security</span>
+            <strong>Symmetric Encryption Demo</strong>
+          </div>
+        </header>
+
+        <section id="home" class="panel hero-panel">
+          <div class="hero-grid">
+            <div class="hero-copy">
+              <span class="eyebrow">Advanced Encryption & Decryption System</span>
+              <h1>Modern AES protection for messages and files.</h1>
+              <p>
+                AES SecureVault demonstrates the power of AES-256-GCM in a secure browser-only environment.
+                Learn how symmetric encryption protects confidentiality while preserving integrity and authenticity.
+              </p>
+
+              <div class="hero-actions">
+                <a href="#text-encryption" class="primary-btn">Encrypt Text</a>
+                <a href="#file-encryption" class="secondary-btn">Encrypt Files</a>
+              </div>
+
+              <div class="hero-badges">
+                <span>AES-256-GCM</span>
+                <span>PBKDF2-SHA-256</span>
+                <span>12-byte IV</span>
+                <span>Browser-only</span>
+              </div>
+            </div>
+
+            <div class="hero-art" aria-hidden="true">
+              <div class="shield-card">
+                <div class="shield-ring ring-one"></div>
+                <div class="shield-ring ring-two"></div>
+                <div class="shield-core">
+                  <span>256</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="feature-grid">
+            <article class="info-card feature-card">
+              <div class="card-icon">✉️</div>
+              <h3>Text Encryption</h3>
+              <p>Protect plain text messages using a fresh IV and authenticated encryption.</p>
+            </article>
+            <article class="info-card feature-card">
+              <div class="card-icon">📁</div>
+              <h3>File Encryption</h3>
+              <p>Secure PDFs, images, and documents locally before downloading them as .aes files.</p>
+            </article>
+            <article class="info-card feature-card">
+              <div class="card-icon">🎓</div>
+              <h3>Learn AES</h3>
+              <p>Explore how key derivation, rounds, and transformations shape modern confidentiality.</p>
+            </article>
+          </div>
+        </section>
+
+        <section id="text-encryption" class="panel">
+          <div class="section-heading">
+            <div>
+              <span class="eyebrow">Secure Message Handling</span>
+              <h2>Text Encryption</h2>
+            </div>
+          </div>
+
+          <div class="two-column layout">
+            <div class="card form-card">
+              <label for="textPlaintext">Plaintext message</label>
+              <textarea id="textPlaintext" rows="8" placeholder="Type a message to encrypt..."></textarea>
+
+              <div class="field-row password-row">
+                <label for="textPassword">Secret password</label>
+                <button class="icon-btn" type="button" data-toggle-password="textPassword" aria-label="Toggle text password visibility">
+                  Show
+                </button>
+              </div>
+              <input id="textPassword" type="password" placeholder="Enter a strong secret key" />
+
+              <div class="action-row">
+                <button id="encryptTextBtn" class="primary-btn" type="button">Encrypt Message</button>
+                <button id="copyCiphertextBtn" class="ghost-btn" type="button">Copy Ciphertext</button>
+                <button id="downloadCiphertextBtn" class="ghost-btn" type="button">Download Encrypted Text</button>
+                <button id="clearTextBtn" class="danger-btn" type="button">Clear All</button>
+              </div>
+            </div>
+
+            <div class="card output-card">
+              <div class="output-header">
+                <h3>Ciphertext Output</h3>
+                <span class="meta-badge">AES-GCM</span>
+              </div>
+              <textarea id="ciphertextOutput" rows="11" readonly placeholder="Encrypted result will appear here..."></textarea>
+            </div>
+          </div>
+        </section>
+
+        <section id="text-decryption" class="panel">
+          <div class="section-heading">
+            <div>
+              <span class="eyebrow">Recover Original Content</span>
+              <h2>Text Decryption</h2>
+            </div>
+          </div>
+
+          <div class="two-column layout">
+            <div class="card form-card">
+              <label for="encryptedPayload">Encrypted payload</label>
+              <textarea id="encryptedPayload" rows="9" placeholder="Paste encrypted payload here..."></textarea>
+
+              <div class="field-row password-row">
+                <label for="decryptPassword">Password</label>
+                <button class="icon-btn" type="button" data-toggle-password="decryptPassword" aria-label="Toggle decryption password visibility">
+                  Show
+                </button>
+              </div>
+              <input id="decryptPassword" type="password" placeholder="Enter the original password" />
+
+              <div class="action-row">
+                <button id="decryptTextBtn" class="primary-btn" type="button">Decrypt Message</button>
+                <button id="copyPlaintextBtn" class="ghost-btn" type="button">Copy Plaintext</button>
+                <button id="clearDecryptBtn" class="danger-btn" type="button">Clear All</button>
+              </div>
+            </div>
+
+            <div class="card output-card">
+              <div class="output-header">
+                <h3>Recovered Plaintext</h3>
+                <span class="meta-badge">Verified</span>
+              </div>
+              <textarea id="plaintextOutput" rows="11" readonly placeholder="Recovered plaintext will appear here..."></textarea>
+            </div>
+          </div>
+        </section>
+
+        <section id="file-encryption" class="panel">
+          <div class="section-heading">
+            <div>
+              <span class="eyebrow">Protect Binary Content</span>
+              <h2>File Encryption</h2>
+            </div>
+          </div>
+
+          <div class="card uploader-card">
+            <div id="dropZone" class="drop-zone" tabindex="0" role="button" aria-label="Upload file for encryption">
+              <div class="drop-icon">📤</div>
+              <p>Drag and drop a file here</p>
+              <span>or</span>
+              <label class="browse-btn" for="fileInput">Browse Files</label>
+              <input id="fileInput" type="file" hidden />
+            </div>
+
+            <div class="file-display" id="selectedFileInfo">
+              <strong>No file selected</strong>
+              <span>Choose a PDF, image, text file, or document to encrypt.</span>
+            </div>
+
+            <div class="field-grid">
+              <div>
+                <label for="filePassword">Password</label>
+                <input id="filePassword" type="password" placeholder="Enter a password" />
+              </div>
+              <div class="inline-toggle">
+                <button class="icon-btn" type="button" data-toggle-password="filePassword">Show</button>
+              </div>
+            </div>
+
+            <div class="action-row">
+              <button id="encryptFileBtn" class="primary-btn" type="button">Encrypt File</button>
+              <button id="downloadEncryptedFileBtn" class="ghost-btn" type="button">Download Encrypted File</button>
+              <button id="removeSelectedFileBtn" class="danger-btn" type="button">Remove File</button>
+            </div>
+            <div id="fileProgress" class="processing-state" aria-live="polite">Ready for encryption</div>
+          </div>
+        </section>
+
+        <section id="file-decryption" class="panel">
+          <div class="section-heading">
+            <div>
+              <span class="eyebrow">Restore Protected Files</span>
+              <h2>File Decryption</h2>
+            </div>
+          </div>
+
+          <div class="card uploader-card">
+            <div id="decryptDropZone" class="drop-zone compact" tabindex="0" role="button" aria-label="Upload encrypted file for decryption">
+              <div class="drop-icon">📥</div>
+              <p>Upload encrypted .aes file</p>
+              <span>or</span>
+              <label class="browse-btn" for="encryptedFileInput">Browse Encrypted File</label>
+              <input id="encryptedFileInput" type="file" accept=".aes" hidden />
+            </div>
+
+            <div class="file-display" id="encryptedFileInfo">
+              <strong>No encrypted file selected</strong>
+              <span>Use an encrypted .aes archive to recover the original file.</span>
+            </div>
+
+            <div class="field-grid">
+              <div>
+                <label for="decryptFilePassword">Password</label>
+                <input id="decryptFilePassword" type="password" placeholder="Enter the decryption password" />
+              </div>
+              <div class="inline-toggle">
+                <button class="icon-btn" type="button" data-toggle-password="decryptFilePassword">Show</button>
+              </div>
+            </div>
+
+            <div class="action-row">
+              <button id="decryptFileBtn" class="primary-btn" type="button">Decrypt File</button>
+              <button id="downloadOriginalFileBtn" class="ghost-btn" type="button">Download Original File</button>
+            </div>
+          </div>
+        </section>
+
+        <section id="education" class="panel">
+          <div class="section-heading">
+            <div>
+              <span class="eyebrow">Key Concepts</span>
+              <h2>AES Algorithm Education</h2>
+            </div>
+          </div>
+
+          <div class="edu-grid">
+            <article class="info-card">
+              <h3>What is cryptography?</h3>
+              <p>Cryptography is the study of protecting information by transforming it into unreadable form and restoring it only to authorized parties.</p>
+            </article>
+            <article class="info-card">
+              <h3>What is symmetric encryption?</h3>
+              <p>Symmetric encryption uses the same secret key for both encryption and decryption, making it efficient for protecting large volumes of data.</p>
+            </article>
+            <article class="info-card">
+              <h3>Plaintext vs Ciphertext</h3>
+              <p>Plaintext is readable data. Ciphertext is the encrypted output produced after applying the cipher and key.</p>
+            </article>
+            <article class="info-card">
+              <h3>Secret Key</h3>
+              <p>A secret key controls the transformation process. Protecting the key is essential because possession of the key allows decryption.</p>
+            </article>
+            <article class="info-card">
+              <h3>What is AES?</h3>
+              <p>AES is the Advanced Encryption Standard, a widely deployed symmetric cipher approved for secure data protection in government and enterprise systems.</p>
+            </article>
+            <article class="info-card">
+              <h3>AES-128 vs AES-192 vs AES-256</h3>
+              <p>These variants differ in key length: 128, 192, and 256 bits. AES-256 uses 14 rounds, AES-192 uses 12, and AES-128 uses 10 rounds.</p>
+            </article>
+          </div>
+
+          <div class="diagram-card">
+            <h3>AES Encryption Flow</h3>
+            <div class="flow-diagram">
+              <span>Plaintext</span>
+              <span class="arrow">↓</span>
+              <span>Secret Key</span>
+              <span class="arrow">↓</span>
+              <span>AES Encryption</span>
+              <span class="arrow">↓</span>
+              <span>Ciphertext</span>
+              <span class="arrow">↓</span>
+              <span>AES Decryption</span>
+              <span class="arrow">↓</span>
+              <span>Original Plaintext</span>
+            </div>
+          </div>
+
+          <div class="edu-grid">
+            <article class="info-card">
+              <h3>SubBytes</h3>
+              <p>Each byte is replaced using a fixed substitution table, introducing nonlinearity into the cipher.</p>
+            </article>
+            <article class="info-card">
+              <h3>ShiftRows</h3>
+              <p>Rows of the state array are shifted cyclically to spread byte positions across the block.</p>
+            </article>
+            <article class="info-card">
+              <h3>MixColumns</h3>
+              <p>Columns are mixed using matrix arithmetic to diffuse data across the state and hide patterns.</p>
+            </article>
+            <article class="info-card">
+              <h3>AddRoundKey</h3>
+              <p>Each round uses a round key derived from the main secret key, ensuring the transformation depends on the key.</p>
+            </article>
+            <article class="info-card wide-card">
+              <h3>Why key security matters</h3>
+              <p>The strength of symmetric encryption depends on the quality and secrecy of the key. Weak passwords, poor entropy, or key leakage can render encryption ineffective. In this project, passwords are never stored or sent to a server.</p>
+            </article>
+            <article class="info-card wide-card">
+              <h3>AES-GCM authenticated encryption</h3>
+              <p>AES-GCM combines confidentiality with authentication. This application uses AES-GCM to protect data and detect tampering with the ciphertext or metadata.</p>
+            </article>
+          </div>
+        </section>
+
+        <section id="about" class="panel">
+          <div class="section-heading">
+            <div>
+              <span class="eyebrow">Project Background</span>
+              <h2>About Project</h2>
+            </div>
+          </div>
+
+          <div class="about-card">
+            <div class="about-grid">
+              <div>
+                <p><strong>Project Name:</strong> AES SecureVault</p>
+                <p><strong>Course:</strong> Cryptography and Network Security</p>
+                <p><strong>Topic:</strong> Symmetric Encryption and Message Confidentiality</p>
+                <p><strong>Algorithm:</strong> AES-256-GCM</p>
+                <p><strong>Project Type:</strong> University Educational Project</p>
+              </div>
+              <div>
+                <ul>
+                  <li>Demonstrate symmetric encryption</li>
+                  <li>Protect message confidentiality</li>
+                  <li>Encrypt and decrypt text</li>
+                  <li>Encrypt and decrypt files</li>
+                  <li>Explain AES concepts</li>
+                  <li>Demonstrate secret-key protection</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <div id="toastContainer" class="toast-container" aria-live="polite" aria-atomic="true"></div>
+  </body>
+</html>
